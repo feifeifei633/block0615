@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.llf.demo.dao.TransactiondetailMapper">
+  <resultMap id="BaseResultMap" type="io.llf.demo.po.Transactiondetail">
+    <id column="tx_detail_id" jdbcType="INTEGER" property="txDetailId" />
+    <result column="txhash" jdbcType="CHAR" property="txhash" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="amount" jdbcType="DOUBLE" property="amount" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    tx_detail_id, txhash, address, amount, type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_transaction_detail
+    where tx_detail_id = #{txDetailId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_transaction_detail
+    where tx_detail_id = #{txDetailId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="io.llf.demo.po.Transactiondetail">
+    insert into tb_transaction_detail (tx_detail_id, txhash, address, 
+      amount, type)
+    values (#{txDetailId,jdbcType=INTEGER}, #{txhash,jdbcType=CHAR}, #{address,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DOUBLE}, #{type,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="io.llf.demo.po.Transactiondetail">
+    insert into tb_transaction_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="txDetailId != null">
+        tx_detail_id,
+      </if>
+      <if test="txhash != null">
+        txhash,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="txDetailId != null">
+        #{txDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="txhash != null">
+        #{txhash,jdbcType=CHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="io.llf.demo.po.Transactiondetail">
+    update tb_transaction_detail
+    <set>
+      <if test="txhash != null">
+        txhash = #{txhash,jdbcType=CHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+    </set>
+    where tx_detail_id = #{txDetailId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="io.llf.demo.po.Transactiondetail">
+    update tb_transaction_detail
+    set txhash = #{txhash,jdbcType=CHAR},
+      address = #{address,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DOUBLE},
+      type = #{type,jdbcType=TINYINT}
+    where tx_detail_id = #{txDetailId,jdbcType=INTEGER}
+  </update>
+</mapper>
