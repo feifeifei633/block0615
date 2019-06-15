@@ -1,7 +1,7 @@
 1 根据区块高度获取区块详情
 
 method：GET
-url: http://localhost:8081/block/getByHeight?height={height}
+url: /block/getByHeight?height={height}
 
 resonse:
 ````json
@@ -31,7 +31,7 @@ resonse:
 2 根据区块hash获取区块详情
 
 method：GET
-url: http://localhost:8081/block/getByBlockhash?getByBlockhash={getByBlockhash}
+url: /block/getByBlockhash?getByBlockhash={getByBlockhash}
 
 resonse:
 ````json
@@ -61,7 +61,7 @@ resonse:
 3 获取当前最新区块
 
 method：GET
-url: http://localhost:8081/block/getRecentBlocks
+url: /block/getRecentBlocks
 
 resonse:
 ````json

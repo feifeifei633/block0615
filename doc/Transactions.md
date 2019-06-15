@@ -1,7 +1,7 @@
 1 获取整个交易的信息
 
 method：GET
-url: http://localhost:8081/transactions/getTransactions
+url: /transactions/getTransactions
 
 
 resonse:
