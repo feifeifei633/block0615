@@ -17,7 +17,7 @@ public class TransactionsController {
     @GetMapping("/getTransactions")
     public List<TransactionsGetDTO> getTransactions(){
         TransactionsGetDTO transactionsGetDTO = new TransactionsGetDTO();
-        0
+
         Date now = new Date();
         SimpleFormatter dateFormat = new SimpleFormatter();
         transactionsGetDTO.setTime(new Date());
