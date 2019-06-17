@@ -1,7 +1,12 @@
 package io.llf.demo.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import io.llf.demo.api.BlockApi;
 import io.llf.demo.dto.BlockGetDTO;
 import io.llf.demo.dto.BlockListDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -11,9 +16,51 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/block")
+@EnableAutoConfiguration
 public class BlockController {
 
+    @Autowired
+    private BlockApi blockApi;
 
+    @GetMapping("/getTransaction")
+    public JSONObject getTransaction(){
+        return blockApi.getTransaction("0000000000000000001b7a59574f4940c89b1e3f04a1e440276044878e580370");
+    }
+
+    @GetMapping("/getBlock")
+    public JSONObject getBlock(){
+        return blockApi.getBlock("0000000024224c12fd9cc28e17b7eb5cd08645324e209ef48b95625d7aa260d9");
+    }
+
+    @GetMapping("/getBlockHeaders")
+    public JSONArray getBlockHeaders(){
+        return blockApi.getBlockHeaders(5,"0000000024224c12fd9cc28e17b7eb5cd08645324e209ef48b95625d7aa260d9");
+    }
+
+    @GetMapping("/getCount")
+    public JSONObject getCount(){
+        return blockApi.getCount("0000000024224c12fd9cc28e17b7eb5cd08645324e209ef48b95625d7aa260d9");
+    }
+
+    @GetMapping("/getChainInfos")
+    public JSONObject getChainInfos(){
+        return blockApi.getChainInfos();
+    }
+
+    @GetMapping("/getCheckmempool")
+    public JSONObject getCheckmempool(){
+        return blockApi.getCheckmempool("0000000024224c12fd9cc28e17b7eb5cd08645324e209ef48b95625d7aa260d9");
+    }
+
+    @GetMapping("/getMempoolContents")
+    public JSONObject getMempoolInfo(){
+        return blockApi.getMempoolInfo();
+    }
+
+    @GetMapping("/getMempoolInfo")
+    public JSONObject getMempoolContents(){
+        return blockApi.getMempoolContents();
+    }
 
     @GetMapping("/getByHeight")
     public BlockGetDTO getByHeight(@RequestParam Integer height){
@@ -108,4 +155,6 @@ public class BlockController {
         return blockListDTOS;
 
     }
+
+
 }

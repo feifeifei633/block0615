@@ -19,6 +19,8 @@ public class Block {
 
     private Float weight;
 
+    private String miner;
+
     private String version;
 
     private Integer nonce;
@@ -89,6 +91,14 @@ public class Block {
 
     public void setWeight(Float weight) {
         this.weight = weight;
+    }
+
+    public String getMiner() {
+        return miner;
+    }
+
+    public void setMiner(String miner) {
+        this.miner = miner == null ? null : miner.trim();
     }
 
     public String getVersion() {

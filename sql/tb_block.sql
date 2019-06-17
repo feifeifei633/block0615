@@ -15,6 +15,7 @@ CREATE TABLE `tb_block`
   `size`       int,
   `difficulty` double,
   `weight`     float,
+  `miner` varchar(155),
   `version` varchar(155),
   `nonce` int,
   `previousblock` char(64),

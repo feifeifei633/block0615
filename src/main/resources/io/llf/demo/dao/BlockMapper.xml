@@ -10,14 +10,15 @@
     <result column="size" jdbcType="INTEGER" property="size" />
     <result column="difficulty" jdbcType="DOUBLE" property="difficulty" />
     <result column="weight" jdbcType="REAL" property="weight" />
+    <result column="miner" jdbcType="VARCHAR" property="miner" />
     <result column="version" jdbcType="VARCHAR" property="version" />
     <result column="nonce" jdbcType="INTEGER" property="nonce" />
     <result column="previousblock" jdbcType="CHAR" property="previousblock" />
     <result column="nextblock" jdbcType="CHAR" property="nextblock" />
   </resultMap>
   <sql id="Base_Column_List">
-    bid, blockhash, height, time, txSize, size, difficulty, weight, version, nonce, previousblock, 
-    nextblock
+    bid, blockhash, height, time, txSize, size, difficulty, weight, miner, version, nonce, 
+    previousblock, nextblock
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -32,14 +33,14 @@
   <insert id="insert" parameterType="io.llf.demo.po.Block">
     insert into tb_block (bid, blockhash, height, 
       time, txSize, size, 
-      difficulty, weight, version, 
-      nonce, previousblock, nextblock
-      )
+      difficulty, weight, miner, 
+      version, nonce, previousblock, 
+      nextblock)
     values (#{bid,jdbcType=INTEGER}, #{blockhash,jdbcType=CHAR}, #{height,jdbcType=INTEGER}, 
       #{time,jdbcType=TIMESTAMP}, #{txsize,jdbcType=SMALLINT}, #{size,jdbcType=INTEGER}, 
-      #{difficulty,jdbcType=DOUBLE}, #{weight,jdbcType=REAL}, #{version,jdbcType=VARCHAR}, 
-      #{nonce,jdbcType=INTEGER}, #{previousblock,jdbcType=CHAR}, #{nextblock,jdbcType=CHAR}
-      )
+      #{difficulty,jdbcType=DOUBLE}, #{weight,jdbcType=REAL}, #{miner,jdbcType=VARCHAR}, 
+      #{version,jdbcType=VARCHAR}, #{nonce,jdbcType=INTEGER}, #{previousblock,jdbcType=CHAR}, 
+      #{nextblock,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="io.llf.demo.po.Block">
     insert into tb_block
@@ -67,6 +68,9 @@
       </if>
       <if test="weight != null">
         weight,
+      </if>
+      <if test="miner != null">
+        miner,
       </if>
       <if test="version != null">
         version,
@@ -106,6 +110,9 @@
       <if test="weight != null">
         #{weight,jdbcType=REAL},
       </if>
+      <if test="miner != null">
+        #{miner,jdbcType=VARCHAR},
+      </if>
       <if test="version != null">
         #{version,jdbcType=VARCHAR},
       </if>
@@ -144,6 +151,9 @@
       <if test="weight != null">
         weight = #{weight,jdbcType=REAL},
       </if>
+      <if test="miner != null">
+        miner = #{miner,jdbcType=VARCHAR},
+      </if>
       <if test="version != null">
         version = #{version,jdbcType=VARCHAR},
       </if>
@@ -168,6 +178,7 @@
       size = #{size,jdbcType=INTEGER},
       difficulty = #{difficulty,jdbcType=DOUBLE},
       weight = #{weight,jdbcType=REAL},
+      miner = #{miner,jdbcType=VARCHAR},
       version = #{version,jdbcType=VARCHAR},
       nonce = #{nonce,jdbcType=INTEGER},
       previousblock = #{previousblock,jdbcType=CHAR},
