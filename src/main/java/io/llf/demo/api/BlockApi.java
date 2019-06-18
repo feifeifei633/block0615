@@ -6,6 +6,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+
 @FeignClient(name = "bitcoin",url = "http://localhost:18332")
 public interface BlockApi {
 
@@ -16,7 +18,7 @@ public interface BlockApi {
     JSONObject getBlock(@PathVariable("blockhash") String blockhash);
 
     @GetMapping("/rest/headers/{count}/{blockhash}.json")
-    JSONArray getBlockHeaders(@PathVariable("count") Integer count, @PathVariable("blockhash") String blockhash);
+    List<JSONObject> getBlockHeaders(@PathVariable("count") Integer count, @PathVariable("blockhash") String blockhash);
 
     @GetMapping("/rest/blockhashbyheight/{count}.json")
     JSONObject getCount(@PathVariable("count") String count);
@@ -24,8 +26,8 @@ public interface BlockApi {
     @GetMapping("/rest/chaininfo.json")
     JSONObject getChainInfos();
 
-    @GetMapping("/rest/checkmempool/{checkmempool}.json")
-    JSONObject getCheckmempool(@PathVariable("checkmempool") String checkmempool);
+    @GetMapping("/rest/getutxos/{checkmempool}.json")
+    JSONObject getutxos(@PathVariable("checkmempool") String checkmempool,@PathVariable("n")Integer n);
 
     @GetMapping("/rest/mempool/info.json")
     JSONObject getMempoolInfo();

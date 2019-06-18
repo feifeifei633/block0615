@@ -3,6 +3,8 @@ package io.llf.demo.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import io.llf.demo.api.BlockApi;
+import io.llf.demo.api.BlockRpcClientAPI;
+import io.llf.demo.api.BlockRpcClientImpl;
 import io.llf.demo.dto.BlockGetDTO;
 import io.llf.demo.dto.BlockListDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +24,116 @@ public class BlockController {
     @Autowired
     private BlockApi blockApi;
 
+    @Autowired
+    private BlockRpcClientAPI blockRpcClientAPI;
+
+    @GetMapping("/getRecentBlocks")
+    public List<BlockListDTO> getRecentBlocks() throws Throwable {
+
+        List<BlockListDTO> blockListDTOS = new ArrayList<>();
+
+        JSONObject blockChainInfo = blockApi.getMempoolInfo();
+
+        Integer blockHeight = blockChainInfo.getInteger("blocks");
+
+        Integer blockFromHeight = blockHeight - 5;
+
+        String blockhash = blockRpcClientAPI.getHeight(blockFromHeight);
+
+        List<JSONObject> blockHeaders = blockApi.getBlockHeaders(5,blockhash);
+
+        for(Object blockHeader : blockHeaders){
+
+            JSONObject jsonObject = (JSONObject) blockHeader;
+
+            BlockListDTO blockListDTO = new BlockListDTO();
+
+            blockListDTO.setHeight(jsonObject.getInteger("height"));
+
+            Long time = jsonObject.getLong("time");
+
+            blockListDTO.setTime(new Date(1000*time).getTime());
+
+
+            blockListDTO.setBlockhash(jsonObject.getString("hash"));
+
+            blockListDTO.setTxsize(jsonObject.getShort("nTx"));
+
+            blockListDTO.setSize(null);
+
+            blockListDTOS.add(blockListDTO);
+
+        }
+
+        return blockListDTOS;
+
+    }
+
+    @GetMapping("/getblockByHeight")
+    public BlockGetDTO getblockByHeight(@RequestParam Integer Blockheight) throws Throwable {
+
+        BlockGetDTO blockGetDTO = new BlockGetDTO();
+
+        String blockhash = blockRpcClientAPI.getHeight(Blockheight);
+
+        JSONObject block = blockApi.getBlock(blockhash);
+
+        blockGetDTO.setBlockhash(blockhash);
+
+
+        blockGetDTO.setSize(block.getInteger("size"));
+
+        blockGetDTO.setTime(block.getLong("time"));
+
+        blockGetDTO.setTxsize(block.getShort("nTx"));
+
+        blockGetDTO.setNextblock(block.getString("nextblockhash"));
+
+        blockGetDTO.setPreviousblock(block.getString("previousblockhash"));
+
+        return blockGetDTO;
+
+    }
+//----------------
+    @GetMapping("/getBestblockHash")
+    public String getBestblockhash() throws Throwable {
+        return blockRpcClientAPI.getBestblockhash();
+    }
+
+    @GetMapping("/getHeight")
+    public String getHeight(Integer blockHeight) throws Throwable {
+
+        return blockRpcClientAPI.getHeight(blockHeight);
+
+    }
+
+    @GetMapping("/getAddressInfo")
+    public JSONObject getAddressInfo(String address) throws Throwable {
+        return blockRpcClientAPI.getAddressInfo(address);
+    }
+
+    @GetMapping("/getBalance")
+    public Double getBalance(String address) throws Throwable {
+        return blockRpcClientAPI.getBalance(address);
+    }
+
+    @GetMapping("/getRawTransaxtion")
+    public JSONObject getRawTransaxtion(String txid) throws Throwable {
+        return blockRpcClientAPI.getRawTransaxtion(txid);
+    }
+
     @GetMapping("/getTransaction")
     public JSONObject getTransaction(){
-        return blockApi.getTransaction("0000000000000000001b7a59574f4940c89b1e3f04a1e440276044878e580370");
+        return blockApi.getTransaction("3aac2f8454bb928214f3c1833b8da6b1b346bd75de7eb07a55252109e5ab5982");
     }
 
     @GetMapping("/getBlock")
     public JSONObject getBlock(){
-        return blockApi.getBlock("0000000024224c12fd9cc28e17b7eb5cd08645324e209ef48b95625d7aa260d9");
+        return blockApi.getBlock("0000000001237182c6a11a4e4466975349f14cfacb53253e4f2661f59374b712");
     }
 
     @GetMapping("/getBlockHeaders")
-    public JSONArray getBlockHeaders(){
+    public List<JSONObject> getBlockHeaders(){
         return blockApi.getBlockHeaders(5,"0000000024224c12fd9cc28e17b7eb5cd08645324e209ef48b95625d7aa260d9");
     }
 
@@ -47,9 +147,9 @@ public class BlockController {
         return blockApi.getChainInfos();
     }
 
-    @GetMapping("/getCheckmempool")
-    public JSONObject getCheckmempool(){
-        return blockApi.getCheckmempool("0000000024224c12fd9cc28e17b7eb5cd08645324e209ef48b95625d7aa260d9");
+    @GetMapping("/getutxos")
+    public JSONObject getutxos(){
+        return blockApi.getutxos("0000000024224c12fd9cc28e17b7eb5cd08645324e209ef48b95625d7aa260d9",2);
     }
 
     @GetMapping("/getMempoolContents")
@@ -113,8 +213,8 @@ public class BlockController {
 
     }
 
-    @GetMapping("/getRecentBlocks")
-    public List<BlockListDTO> getRecentBlocks(){
+    @GetMapping("/getRecentBlockss")
+    public List<BlockListDTO> getRecentBlockss(){
 
         ArrayList<BlockListDTO> blockListDTOS = new ArrayList<>();
 
