@@ -1,17 +1,17 @@
 package io.llf.demo.dao;
 
-import io.llf.demo.po.transactions;
+import io.llf.demo.po.Transactions;
 
-public interface transactionsMapper {
+public interface TransactionsMapper {
     int deleteByPrimaryKey(Integer txid);
 
-    int insert(transactions record);
+    int insert(Transactions record);
 
-    int insertSelective(transactions record);
+    int insertSelective(Transactions record);
 
-    transactions selectByPrimaryKey(Integer txid);
+    Transactions selectByPrimaryKey(Integer txid);
 
-    int updateByPrimaryKeySelective(transactions record);
+    int updateByPrimaryKeySelective(Transactions record);
 
-    int updateByPrimaryKey(transactions record);
+    int updateByPrimaryKey(Transactions record);
 }
