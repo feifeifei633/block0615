@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.googlecode.jsonrpc4j.JsonRpcHttpAsyncClient;
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
@@ -11,7 +12,7 @@ import java.net.URL;
 import java.util.Base64;
 import java.util.HashMap;
 
-@Service
+@Component
 public class BlockRpcClientImpl implements BlockRpcClientAPI{
     private JsonRpcHttpClient jsonRpcHttpClient;
 
@@ -22,13 +23,12 @@ public class BlockRpcClientImpl implements BlockRpcClientAPI{
         String author = Base64.getEncoder().encodeToString(authorOig.getBytes());
         String authorResult = String.format("Basic %s",author);
         hashMap.put("Authorization",authorResult);
-        jsonRpcHttpClient = new JsonRpcHttpClient(new URL("http://localhost:18332\""),hashMap);
+        jsonRpcHttpClient = new JsonRpcHttpClient(new URL("http://localhost:18332"),hashMap);
     }
 
     @Override
     public String getBestblockhash() throws Throwable {
         String blockhash = jsonRpcHttpClient.invoke("getbestblockhash",null, String.class);
-
         return blockhash;
     }
 

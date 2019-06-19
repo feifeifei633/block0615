@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="io.llf.demo.dao.transactionsMapper">
-  <resultMap id="BaseResultMap" type="io.llf.demo.po.transactions">
+<mapper namespace="io.llf.demo.dao.TransactionsMapper">
+  <resultMap id="BaseResultMap" type="io.llf.demo.po.Transactions">
     <id column="txid" jdbcType="INTEGER" property="txid" />
     <result column="txhash" jdbcType="CHAR" property="txhash" />
     <result column="blockhash" jdbcType="CHAR" property="blockhash" />
@@ -31,7 +31,7 @@
     delete from tb_transactions
     where txid = #{txid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="io.llf.demo.po.transactions">
+  <insert id="insert" parameterType="io.llf.demo.po.Transactions">
     insert into tb_transactions (txid, txhash, blockhash, 
       time, amount, size, 
       weight, confirmations, totalinput, 
@@ -43,7 +43,7 @@
       #{totaloutput,jdbcType=DOUBLE}, #{fees,jdbcType=DOUBLE}, #{feeperbyte,jdbcType=DOUBLE}, 
       #{feeperweightunit,jdbcType=DOUBLE}, #{btctransacted,jdbcType=DOUBLE})
   </insert>
-  <insert id="insertSelective" parameterType="io.llf.demo.po.transactions">
+  <insert id="insertSelective" parameterType="io.llf.demo.po.Transactions">
     insert into tb_transactions
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="txid != null">
@@ -134,7 +134,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="io.llf.demo.po.transactions">
+  <update id="updateByPrimaryKeySelective" parameterType="io.llf.demo.po.Transactiondetail">
     update tb_transactions
     <set>
       <if test="txhash != null">
@@ -179,7 +179,7 @@
     </set>
     where txid = #{txid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="io.llf.demo.po.transactions">
+  <update id="updateByPrimaryKey" parameterType="io.llf.demo.po.Transactions">
     update tb_transactions
     set txhash = #{txhash,jdbcType=CHAR},
       blockhash = #{blockhash,jdbcType=CHAR},

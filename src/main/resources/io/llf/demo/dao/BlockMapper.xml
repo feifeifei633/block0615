@@ -26,6 +26,13 @@
     from tb_block
     where bid = #{bid,jdbcType=INTEGER}
   </select>
+
+  <select id="getJustNowBlocks" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_block
+    order by height limit 5
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tb_block
     where bid = #{bid,jdbcType=INTEGER}

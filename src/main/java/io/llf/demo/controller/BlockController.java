@@ -7,8 +7,10 @@ import io.llf.demo.api.BlockRpcClientAPI;
 import io.llf.demo.api.BlockRpcClientImpl;
 import io.llf.demo.dto.BlockGetDTO;
 import io.llf.demo.dto.BlockListDTO;
+import io.llf.demo.service.BlockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("/block")
 @EnableAutoConfiguration
+@EnableAsync
 public class BlockController {
 
     @Autowired
@@ -26,6 +29,47 @@ public class BlockController {
 
     @Autowired
     private BlockRpcClientAPI blockRpcClientAPI;
+
+    @Autowired
+    private BlockService blockService;
+
+    @GetMapping("/getJustNowBlocks")
+    public List<BlockListDTO> getJustNowBlocks(){
+        List<BlockListDTO> blockListDTOList = blockService.getJustNowBlocks();
+        return blockListDTOList;
+    }
+
+    @GetMapping("/getBlockHeader")
+    public BlockGetDTO getBlockHeader(@RequestParam String hash){
+        BlockGetDTO blockGetDTO = new BlockGetDTO();
+        blockGetDTO.setBlockhash("00000000000000add3a8881e17fa7bab9a8c31f8e90ba04ef17be8ef9d2754f8");
+        blockGetDTO.setHeight(1381602);
+        blockGetDTO.setPreviousblock("00000000000000729201dae009ad242cba9994d31eda602417bcea99bead69a3");
+        blockGetDTO.setNextblock("0000000000000036152b19dc6e1e36f292126f4aa1c5997c68b0a967e9bbe15f");
+        blockGetDTO.setTxsize((short)2870);
+        blockGetDTO.setDifficulty(17349304.92883517);
+        blockGetDTO.setTime(new Date().getTime());
+        blockGetDTO.setSize(817042);
+
+        return blockGetDTO;
+    }
+
+    @GetMapping("/getBlockHash")
+    public BlockGetDTO getBlockHash(@RequestParam Integer height){
+        BlockGetDTO blockGetDTO = new BlockGetDTO();
+        blockGetDTO.setBlockhash("00000000000000add3a8881e17fa7bab9a8c31f8e90ba04ef17be8ef9d2754f8");
+        blockGetDTO.setHeight(1381602);
+        blockGetDTO.setPreviousblock("00000000000000729201dae009ad242cba9994d31eda602417bcea99bead69a3");
+        blockGetDTO.setNextblock("0000000000000036152b19dc6e1e36f292126f4aa1c5997c68b0a967e9bbe15f");
+        blockGetDTO.setTxsize((short)2870);
+        blockGetDTO.setDifficulty(17349304.92883517);
+        blockGetDTO.setTime(new Date().getTime());
+        blockGetDTO.setSize(817042);
+
+        return blockGetDTO;
+    }
+
+
 
     @GetMapping("/getRecentBlocks")
     public List<BlockListDTO> getRecentBlocks() throws Throwable {

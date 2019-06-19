@@ -2,7 +2,7 @@ package io.llf.demo.po;
 
 import java.util.Date;
 
-public class transactions {
+public class Transactions {
     private Integer txid;
 
     private String txhash;

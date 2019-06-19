@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "bitcoin",url = "http://localhost:18332")
+@FeignClient(name = "BlockApi",url = "http://localhost:18332")
 public interface BlockApi {
+
 
     @GetMapping("/rest/tx/{txhash}.json")
     JSONObject getTransaction(@PathVariable("txhash") String txhash);

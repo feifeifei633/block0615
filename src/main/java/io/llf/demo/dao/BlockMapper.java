@@ -1,6 +1,9 @@
 package io.llf.demo.dao;
 
+import io.llf.demo.dto.BlockListDTO;
 import io.llf.demo.po.Block;
+
+import java.util.List;
 
 public interface BlockMapper {
     int deleteByPrimaryKey(Integer bid);
@@ -14,4 +17,7 @@ public interface BlockMapper {
     int updateByPrimaryKeySelective(Block record);
 
     int updateByPrimaryKey(Block record);
+
+    //zi ding yi
+    List<Block> getJustNowBlocks();
 }

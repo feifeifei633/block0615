@@ -21,10 +21,10 @@
     delete from tb_transaction_detail
     where tx_detail_id = #{txDetailId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="io.llf.demo.po.Transactiondetail">
-    insert into tb_transaction_detail (tx_detail_id, txhash, address, 
+  <insert id="insert" parameterType="io.llf.demo.po.Transactiondetail" keyProperty="tx_detail_id" useGeneratedKeys="true">
+    insert into tb_transaction_detail ( txhash, address,
       amount, type)
-    values (#{txDetailId,jdbcType=INTEGER}, #{txhash,jdbcType=CHAR}, #{address,jdbcType=VARCHAR}, 
+    values ( #{txhash,jdbcType=CHAR}, #{address,jdbcType=VARCHAR},
       #{amount,jdbcType=DOUBLE}, #{type,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="io.llf.demo.po.Transactiondetail">
