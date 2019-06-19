@@ -3,10 +3,12 @@ package io.llf.demo.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import io.llf.demo.api.BlockApi;
+import io.llf.demo.api.BlockRpcClientAPI;
 import io.llf.demo.dao.BlockMapper;
 import io.llf.demo.dao.TransactiondetailMapper;
 import io.llf.demo.dao.TransactionsMapper;
 import io.llf.demo.dto.TransactionsGetDTO;
+import io.llf.demo.enumpackge.TransactionEnum;
 import io.llf.demo.po.Block;
 import io.llf.demo.po.Transactiondetail;
 import io.llf.demo.po.Transactions;
@@ -33,6 +35,8 @@ public class BitcionServiceImpl implements BitcionService {
     private BlockMapper blockMapper;
 
     @Autowired
+    private BlockRpcClientAPI blockRpcClientAPI;
+    @Autowired
     private TransactionsMapper transactionsMapper;
 
     @Autowired
@@ -41,7 +45,7 @@ public class BitcionServiceImpl implements BitcionService {
     @Override
     @Async
     @Transactional
-    public void synchronizeBlock(String hash) {
+    public void synchronizeBlock(String hash) throws Throwable {
         logger.info("开始同步", hash);
         String bitcoinhash =hash;
         while (bitcoinhash != null && !bitcoinhash.isEmpty()){
@@ -76,7 +80,7 @@ public class BitcionServiceImpl implements BitcionService {
     @Override
     @Transactional
     @Async
-    public void synchronizenTx(JSONObject jsonObject, String hash, Date datetime, Integer confirmations) {
+    public void synchronizenTx(JSONObject jsonObject, String hash, Date datetime, Integer confirmations) throws Throwable {
         Transactions transactions = new Transactions();
         transactions.setTxhash(jsonObject.getString("txid"));
         transactions.setBlockhash(hash);
@@ -86,37 +90,39 @@ public class BitcionServiceImpl implements BitcionService {
         transactions.setConfirmations(confirmations);
         transactionsMapper.insert(transactions);
 
+        String txid =jsonObject.getString("txid");
         //todo set txdetail
-        synchronizenTxDetail(jsonObject);
+        synchronizenTxDetail(jsonObject,txid);
 
         //todo set amount
-        synchronizenTxAmount(jsonObject);
+
     }
 
     @Override
     @Transactional
     @Async
-    public void synchronizenTxDetail(JSONObject jsonObject) {
+    public void synchronizenTxDetail(JSONObject jsonObject,String txid) throws Throwable {
         JSONArray vout = jsonObject.getJSONArray("vout");
-        synchronizenTxDetailVout(vout);
+        synchronizenTxDetailVout(vout,txid);
         JSONArray vin = jsonObject.getJSONArray("vin");
-        synchronizenTxDetailVin(vin);
+        synchronizenTxDetailVin(vin,txid);
     }
 
     @Override
-    public void synchronizenTxDetailVout(JSONArray vout) {
+    @Transactional
+    public void synchronizenTxDetailVout(JSONArray vout,String txid) {
         for (Object vouts : vout) {
             Transactiondetail transactiondetail = new Transactiondetail();
             JSONObject jsonObject = new JSONObject((LinkedHashMap) vouts);
             transactiondetail.setAddress(jsonObject.getJSONObject("scriptPubKey").getString("addresses"));
-            transactiondetail.setTxDetailId(jsonObject.getJSONObject("scriptPubKey").getInteger("reqSigs"));
-            transactiondetail.setType(jsonObject.getJSONObject("scriptPubKey").getByte("type"));
+            transactiondetail.setTxhash(txid);
             transactiondetailMapper.insert(transactiondetail);
         }
     }
 
     @Override
-    public void synchronizenTxDetailVin(JSONArray vin) {
+    @Transactional
+    public void synchronizenTxDetailVin(JSONArray vin,String id) throws Throwable {
 
     }
 

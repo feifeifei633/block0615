@@ -32,7 +32,7 @@ public class TempController {
 
 
     @GetMapping("/tt")
-    public String tt() throws Exception{
+    public String tt() throws Throwable {
        /* String blockhash = "00000000b873e79784647a6c82962c70d228557d24a747ea4d1b8bbe878e1206";
 
         while (blockhash !=null && !blockhash.isEmpty()){
@@ -54,7 +54,7 @@ public class TempController {
         }*/
 
        String hash = "00000000b873e79784647a6c82962c70d228557d24a747ea4d1b8bbe878e1206";
-        bitcionService.synchronizeBlock(hash);
+       bitcionService.synchronizeBlock(hash);
 
         return null;
     }

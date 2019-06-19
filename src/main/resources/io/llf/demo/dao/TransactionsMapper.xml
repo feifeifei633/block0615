@@ -31,13 +31,13 @@
     delete from tb_transactions
     where txid = #{txid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="io.llf.demo.po.Transactions">
-    insert into tb_transactions (txid, txhash, blockhash, 
+  <insert id="insert" parameterType="io.llf.demo.po.Transactions" useGeneratedKeys="true" keyProperty="txid">
+    insert into tb_transactions ( txhash, blockhash,
       time, amount, size, 
       weight, confirmations, totalinput, 
       totaloutput, fees, feeperbyte, 
       feeperweightunit, btctransacted)
-    values (#{txid,jdbcType=INTEGER}, #{txhash,jdbcType=CHAR}, #{blockhash,jdbcType=CHAR}, 
+    values ( #{txhash,jdbcType=CHAR}, #{blockhash,jdbcType=CHAR},
       #{time,jdbcType=TIMESTAMP}, #{amount,jdbcType=DOUBLE}, #{size,jdbcType=INTEGER}, 
       #{weight,jdbcType=REAL}, #{confirmations,jdbcType=INTEGER}, #{totalinput,jdbcType=DOUBLE}, 
       #{totaloutput,jdbcType=DOUBLE}, #{fees,jdbcType=DOUBLE}, #{feeperbyte,jdbcType=DOUBLE}, 
