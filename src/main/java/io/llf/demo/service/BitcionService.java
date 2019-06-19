@@ -7,7 +7,9 @@ import java.util.Date;
 
 public interface BitcionService {
 
-    void synchronizeBlock(String hash) throws Throwable;
+    void synchronizeBlockFromHash(String hash) throws Throwable;
+
+    String synchronizeBlock(String hash) throws Throwable;
 
     void synchronizenTx(JSONObject jsonObject, String hash, Date datetime,Integer confirmations) throws Throwable;
 

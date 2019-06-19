@@ -43,12 +43,26 @@ public class BitcionServiceImpl implements BitcionService {
     private TransactiondetailMapper transactiondetailMapper;
 
     @Override
+    @Transactional
+    public void synchronizeBlockFromHash(String hash) throws Throwable {
+        logger.info("begin to sync blockchain from {}", hash);
+        String blockhash = hash;
+        while (blockhash != null && !blockhash.isEmpty()){
+
+            String nextBlock = synchronizeBlock(blockhash);
+            blockhash = nextBlock;
+        }
+        logger.info("end sync blockchain");
+    }
+
+
+    @Override
     @Async
     @Transactional
-    public void synchronizeBlock(String hash) throws Throwable {
+    public String synchronizeBlock(String hash) throws Throwable {
         logger.info("开始同步", hash);
         String bitcoinhash =hash;
-        while (bitcoinhash != null && !bitcoinhash.isEmpty()){
+
             JSONObject blockJson = blockApi.getBlock(bitcoinhash);
             Block block = new Block();
             block.setBlockhash(blockJson.getString("hash"));
@@ -73,8 +87,11 @@ public class BitcionServiceImpl implements BitcionService {
             }
 
             bitcoinhash = block.getNextblock();
-        }
+
         logger.info("同步结束");
+
+
+        return block.getNextblock();
     }
 
     @Override
@@ -125,6 +142,7 @@ public class BitcionServiceImpl implements BitcionService {
     public void synchronizenTxDetailVin(JSONArray vin,String id) throws Throwable {
 
     }
+
 
     @Override
     public void synchronizenTxAmount(JSONObject jsonObject) {
