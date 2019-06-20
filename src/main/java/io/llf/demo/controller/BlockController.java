@@ -33,6 +33,22 @@ public class BlockController {
     @Autowired
     private BlockService blockService;
 
+
+    @GetMapping("/getblockbyheight")
+    public BlockGetDTO getblockbyheight(@RequestParam(required = false)Integer blockheight) throws Throwable {
+        String blockhashbyheight = blockRpcClientAPI.getHeight(blockheight);
+        JSONObject jsonObject = blockApi.getBlock(blockhashbyheight);
+        BlockGetDTO blockGetDTO = new BlockGetDTO();
+        blockGetDTO.setDifficulty(jsonObject.getDouble("difficulty"));
+        blockGetDTO.setSize(jsonObject.getInteger("size"));
+        blockGetDTO.setTime(jsonObject.getLong("time"));
+        blockGetDTO.setTxsize(jsonObject.getShort("nTx"));
+        blockGetDTO.setNextblock(jsonObject.getString("nextblockhash"));
+        blockGetDTO.setPreviousblock(jsonObject.getString("previousblockhash"));
+
+        return blockGetDTO;
+    }
+
     @GetMapping("/getJustNowBlocks")
     public List<BlockListDTO> getJustNowBlocks(){
         List<BlockListDTO> blockListDTOList = blockService.getJustNowBlocks();
