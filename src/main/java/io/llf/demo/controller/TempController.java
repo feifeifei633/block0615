@@ -53,8 +53,8 @@ public class TempController {
 
         }*/
 
-       String hash = "00000000b873e79784647a6c82962c70d228557d24a747ea4d1b8bbe878e1206";
-       bitcionService.synchronizeBlock(hash);
+       String hash = "000000000000006c9ed4a5a221f3d222f10309be3045c168055cc5870d11f23d";
+       bitcionService.synchronizeBlockFromHash(hash);
 
         return null;
     }

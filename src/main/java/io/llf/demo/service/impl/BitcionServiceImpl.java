@@ -140,7 +140,30 @@ public class BitcionServiceImpl implements BitcionService {
     @Override
     @Transactional
     public void synchronizenTxDetailVin(JSONArray vin,String id) throws Throwable {
+//        for (Object vinObj : vin) {
+//            JSONObject jsonObject = new JSONObject((LinkedHashMap) vinObj);
+//            String vinTxid = jsonObject.getString("txid");
+//            Integer n = jsonObject.getInteger("vout");
+//
+//            if (vinTxid != null){
+//                JSONObject vinTxJson = blockRpcClientAPI.getRawTransaxtion(vinTxid);
+//                JSONArray vouts = vinTxJson.getJSONArray("vout");
+//                JSONObject utxoJson = vouts.getJSONObject(n);
+//
+//                Transactiondetail transactiondetail = new Transactiondetail();
+//                transactiondetail.setAmount(-utxoJson.getDouble("value"));
+//                transactiondetail.setTxhash(id);
+//                transactiondetail.setType((byte) TransactionEnum.Send.ordinal());
+//                JSONObject scriptPubKey = utxoJson.getJSONObject("scriptPubKey");
+//                JSONArray addresses = scriptPubKey.getJSONArray("addresses");
+//                if (addresses != null){
+//                    String address = addresses.getString(0);
+//                    transactiondetail.setAddress(address);
+//                }
+//                transactiondetailMapper.insert(transactiondetail);
+//            }
 
+//        }
     }
 
 
