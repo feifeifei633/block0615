@@ -33,6 +33,11 @@ public class BlockController {
     @Autowired
     private BlockService blockService;
 
+    @GetMapping("/getblockview")
+    public List<BlockGetDTO> getblockview(){
+        List<BlockGetDTO> blockGetDTOList = blockService.getblockview();
+        return blockGetDTOList;
+    }
 
     @GetMapping("/getblockbyheight")
     public BlockGetDTO getblockbyheight(@RequestParam(required = false)Integer blockheight) throws Throwable {

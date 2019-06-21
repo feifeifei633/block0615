@@ -16,6 +16,16 @@
     <result column="previousblock" jdbcType="CHAR" property="previousblock" />
     <result column="nextblock" jdbcType="CHAR" property="nextblock" />
   </resultMap>
+  <resultMap id="BlockGetDTO" type="io.llf.demo.dto.BlockGetDTO">
+    <result column="blockhash" jdbcType="CHAR" property="blockhash" />
+    <result column="height" jdbcType="INTEGER" property="height" />
+    <result column="previousblock" jdbcType="CHAR" property="previousblock" />
+    <result column="nextblock" jdbcType="CHAR" property="nextblock" />
+    <result column="txSize" jdbcType="SMALLINT" property="txsize" />
+    <result column="difficulty" jdbcType="DOUBLE" property="difficulty" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="size" jdbcType="INTEGER" property="size" />
+  </resultMap>
   <sql id="Base_Column_List">
     bid, blockhash, height, time, txSize, size, difficulty, weight, miner, version, nonce, 
     previousblock, nextblock
@@ -33,6 +43,14 @@
     from tb_block
     order by height limit 5
   </select>
+
+  <select id="getblockview" resultMap="BlockGetDTO">
+    select
+    <include refid="Base_Column_List" />
+    from tb_block
+    order by height limit 5
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tb_block
     where bid = #{bid,jdbcType=INTEGER}
